@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "S0ch8rNCyeNX1Ba5YaPCHbAy4U9mNseMKjSMu7EEsp8=",
+  "Source": "gatcha_server",
+  "BasePath": "_content/gatcha_server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
