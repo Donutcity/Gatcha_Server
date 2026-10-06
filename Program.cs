@@ -9,7 +9,7 @@ app.MapGet("/signup", (string username, string password, string display_name, Ap
     var existingUser = db.Users.FirstOrDefault(u => u.Username == username);
 
     if (existingUser != null)
-        return "username taken";
+        return Results.BadRequest("Username already exists");
 
     var user = new User
     {
@@ -21,16 +21,17 @@ app.MapGet("/signup", (string username, string password, string display_name, Ap
     db.Users.Add(user);
     db.SaveChanges();
 
-    return "user created";
+    return Results.Ok(user);
 });
+
 app.MapGet("/login", (string username, string password, AppDbContext db) =>
 {
     var user = db.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
 
     if (user != null)
-        return $"Welcome {user.Display_name}";
+        return Results.Ok(user);
 
-    return "Invalid username or password";
+    return Results.BadRequest("Invalid username or password");
 });
 
 app.Run();
