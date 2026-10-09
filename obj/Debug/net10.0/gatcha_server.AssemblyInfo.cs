@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("gatcha_server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d379882d85fb3e3cb5cc5dee35a7538e46385821")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4947eb37a649ccdc112d7f6706347a3b43758594")]
 [assembly: System.Reflection.AssemblyProductAttribute("gatcha_server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("gatcha_server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
