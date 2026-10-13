@@ -3,55 +3,77 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>();
 var app = builder.Build();
 
+List<Item> items = new List<Item>()
+{
+    new Item() { Id = 1, Type = Type.character, value= 5},
+    new Item() { Id = 2, Type = Type.character, value= 5},
+};
+
+// --- ACCESSING APPDB雇ONTEXT AT STARTUP ---
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    foreach (var v in items)
+    {
+        Item? item = db.Items.FirstOrDefault(u => u.Id == v.Id);
+
+        if (item == null) db.Items.Add(v);
+    }
+
+    db.SaveChanges();
+}
+
+
 app.MapGet("/", () => "defult");
 
 app.MapGet("/buy", (int user_id, int item_id, AppDbContext db) =>
 {
-     var currect_user = db.Users.FirstOrDefault(u=> u.Id == user_id);
-     var current_item = db.Items.FirstOrDefault(u=> u.Id == item_id);
-     if(currect_user == null || current_item == null) return Results.Ok("either item or user doesn't exist");
-    if(currect_user.Coins < current_item.value)
+    var currect_user = db.Users.FirstOrDefault(u => u.Id == user_id);
+    var current_item = db.Items.FirstOrDefault(u => u.Id == item_id);
+    if (currect_user == null || current_item == null) return Results.Ok("either item or user doesn't exist");
+    if (currect_user.Coins < current_item.value)
     {
-         return Results.Ok("not enough money");
+        return Results.Ok("not enough money");
     }
-    if(db.user_Owneds.FirstOrDefault(u=> u.user_id == currect_user.Id && u.item_id == current_item.Id )!= null)
+    if (db.user_Owneds.FirstOrDefault(u => u.user_id == currect_user.Id && u.item_id == current_item.Id) != null)
     {
-        
-        if(current_item.Type == Type.timer)
+
+        if (current_item.Type == Type.timer)
         {
-            currect_user.selected_timer = current_item.Id;  
-        } 
-        if(current_item.Type == Type.background)
+            currect_user.selected_timer = current_item.Id;
+        }
+        if (current_item.Type == Type.background)
         {
-            currect_user.selected_background = current_item.Id;  
-        } 
-        if(current_item.Type == Type.character)
+            currect_user.selected_background = current_item.Id;
+        }
+        if (current_item.Type == Type.character)
         {
-            currect_user.selected_character = current_item.Id;  
-        } 
+            currect_user.selected_character = current_item.Id;
+        }
         db.SaveChanges();
         return Results.Ok("equiped");
     }
-    currect_user.Coins =- current_item.value; 
+    currect_user.Coins = -current_item.value;
 
     user_owned us = new user_owned()
     {
-      user_id = currect_user.Id,
-      item_id = current_item.Id,  
+        user_id = currect_user.Id,
+        item_id = current_item.Id,
     };
 
     db.user_Owneds.Add(us);
     db.SaveChanges();
-     return Results.Ok("complete");
+    return Results.Ok("complete");
 });
-app.MapGet("/user_banking_info" ,()=>
+app.MapGet("/user_banking_info", () =>
 {
     return Results.Ok("bro thought there was actually banking info here lamfo https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBnPXfkBUXXru9ypY6Ru8xcsqiHxjddcZUws4frHaGDByA_IyUq4x77FW_&s=10");
 });
 app.MapGet("/signup", (string username, string password, string display_name, AppDbContext db) =>
 {
     var existingUser = db.Users.FirstOrDefault(u => u.Username == username);
-    
+
     if (existingUser != null)
         return Results.BadRequest("Username already exists");
 
@@ -60,10 +82,10 @@ app.MapGet("/signup", (string username, string password, string display_name, Ap
         Username = username,
         Password = password,
         Display_name = display_name,
-         Coins = 100,
-         selected_background =0,
-         selected_character = 0,
-         selected_timer = 0
+        Coins = 100,
+        selected_background = 0,
+        selected_character = 0,
+        selected_timer = 0
     };
 
     db.Users.Add(user);

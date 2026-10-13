@@ -28,7 +28,7 @@ public class User
 
     public string Display_name { get; set; } = string.Empty;
 
-    public int Coins { get; set; } = 999999990;
+    public int Coins { get; set; } = 0;
     public int selected_background { get; set; } = 0;
     public int selected_character { get; set; } = 0;
     public int selected_timer { get; set; } = 0;
