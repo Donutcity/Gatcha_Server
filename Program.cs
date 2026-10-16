@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>();
@@ -26,7 +27,10 @@ using (var scope = app.Services.CreateScope())
 
 
 app.MapGet("/", () => "defult");
-
+app.MapGet("/getitem", (AppDbContext db) =>
+{
+    return Results.Ok(db.Items.ToArray());
+});
 app.MapGet("/buy", (int user_id, int item_id, AppDbContext db) =>
 {
     var currect_user = db.Users.FirstOrDefault(u => u.Id == user_id);
