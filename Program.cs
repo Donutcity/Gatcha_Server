@@ -6,11 +6,10 @@ var app = builder.Build();
 
 List<Item> items = new List<Item>()
 {
-    new Item() { Id = 1, Type = Type.character, value= 5},
-    new Item() { Id = 2, Type = Type.character, value= 5},
+    new Item() { Id = 1, Type = Type.character, value= 30},
+    new Item() { Id = 2, Type = Type.character, value= 30},
+    new Item() { Id = 2, Type = Type.character, value= 30}
 };
-
-// --- ACCESSING APPDB雇ONTEXT AT STARTUP ---
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
